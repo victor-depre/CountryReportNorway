@@ -1,6 +1,6 @@
 ---
 title: "Executive Summary"
-author: "Victor"
+author: "Victor Dépré"
 date: "1/20/2020"
 output: 
   html_document: 
@@ -11,36 +11,23 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
-# Why did I choose Norway ?
+## Why did I choose Norway ?
 
 I chose Norway because it is a very interesting country that is quite exemplary and could inspire many other countries in economic, social and especially environmental terms.
 
----------------
+### Introduction
 
-## Introduction
+Historically, Norway has long been one of the poorest countries in Europe, but the very **interesting development** of this country has made it today a rich country with a very **high standard of living** and **well-being**. With an HDI of 0.954 in 2018, Norway defies all competition and is in pole position worldwide. 
 
---------------------
+Add to this the **ecological awareness** of its citizens, which has made Norway one of the precursors of the ecological transition and we have a country that is more than exemplary, both economically and socially as well as environmentally.
 
-Historically, Norway has long been one of the poorest countries in Europe, but the very interesting development of this country has made it today a rich country with a very high standard of living and well-being. With an HDI of 0.954 in 2018, Norway defies all competition and is in pole position worldwide. 
+### Economical reason
 
-Add to this the ecological awareness of its citizens, which has made Norway one of the precursors of the ecological transition and we have a country that is more than exemplary, both economically and socially as well as environmentally.
+Norway's economy, since the beginning of the industrial revolution, has shown **solid growth**. The transport of goods is an important part of Norway's exportations, but economic growth is also largely due to the abundance of **natural resources** in the country such as oil and hydroelectricity. The exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the **service and oil sectors**. Moreover, its public sector is one of the largest in the world in relation to its GDP.
 
----------------
+### Environmental reason
 
-## Economical reason
+Norway is a very environmentally committed country. For example, last June Norway announced that the sale of **petrol cars would be banned** by 2025. The country is already among the European countries offering the most tax incentives for buying electric cars. Norway has also become the first country to **ban deforestation**. Public procurement will now have to exclude any offer from a company whose products may have contributed to deforestation.
 
---------------------
-
--------------
-
-## Social reason
-
---------------
-
--------
-
-## Environmental reason
-
--------
+On top of that he Norwegian Parliament has announced that the country will aim for **carbon neutrality** by 2030, 20 years ahead of the target of reducing net greenhouse gas emissions, which are responsible for global warming, to zero.  
+Nearly all of the country's electricity production is already clean, since it is hydroelectric. 
