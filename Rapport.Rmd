@@ -19,6 +19,7 @@ library(tmaptools)
 library(leaflet)
 library(dplyr)
 library(WDI)
+
 #listOfIndicators <- WDIsearch("GDP")
 
 #listOfIndicators[]
@@ -29,26 +30,12 @@ mymap <- st_read("NOR_adm1.shp", stringsAsFactors = FALSE)
 
 datamap <- inner_join(mymap, mydata)
 
-#ggplot(datamap) + geom_sf(aes(fill= "Density"))
-
-#ggplot(datamap) + 
-  #geom_sf(aes(fill = Density)) +
-  #scale_fill_gradient(low = "#56B1F7", high = "#132B43")
-
 tm_shape(datamap) +
   tm_polygons("Density", id = "NAME_1", palette = "Blues")
 
 tmap_mode("view")
-tmap_last()
-#ggplot(mymap)+geom_sf()
-
-
-
-
-#counties <- sf::read_sf("NOR_adm1.shp")
-#counties
-
-#ggplot(counties)+geom_sf() 
+DensityMap <- tmap_last()
+#tmap_save(DensityMap, "DensityMap.html")
 
 ```
 
