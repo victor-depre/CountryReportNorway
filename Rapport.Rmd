@@ -1,0 +1,56 @@
+---
+title: "Rapport"
+author: "Victor"
+date: "1/22/2020"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+library(WDI)
+#listOfIndicators <- WDIsearch("GDP")
+
+#listOfIndicators[]
+
+mydata <- readr::read_csv("Density per Fylker.csv")
+
+mymap <- st_read("NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap <- inner_join(mymap, mydata)
+
+#ggplot(datamap) + geom_sf(aes(fill= "Density"))
+
+#ggplot(datamap) + 
+  #geom_sf(aes(fill = Density)) +
+  #scale_fill_gradient(low = "#56B1F7", high = "#132B43")
+
+tm_shape(datamap) +
+  tm_polygons("Density", id = "NAME_1", palette = "Blues")
+
+tmap_mode("view")
+tmap_last()
+#ggplot(mymap)+geom_sf()
+
+
+
+
+#counties <- sf::read_sf("NOR_adm1.shp")
+#counties
+
+#ggplot(counties)+geom_sf() 
+
+```
+
+
+
