@@ -180,7 +180,8 @@ graph4 <- ggplot(EQU_2) +
  geom_line(size = 1.2) +
  scale_color_hue() +
  labs(x = "Year", y = "Greenhouse gas emissions Indicator", title = "Greenhouse gas emissions", color = "Countries") +
- theme_minimal() 
+ theme_minimal()
+
 
 graph4 <- ggplotly(graph4)
 graph4
@@ -197,3 +198,31 @@ sqs_spi_indicator()
 ```
 
 
+
+##Graph6
+
+```{r}
+
+library(spiR)
+
+EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "EQU_2")
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+EQU <- EQU[order(EQU$countryName),]
+EQU
+
+graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
+  geom_point(aes(size = 1, frame = var_year)) +
+  scale_x_log10()
+
+graph6 <- ggplotly(graph6)
+graph6
+
+```
