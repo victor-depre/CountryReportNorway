@@ -23,9 +23,9 @@ library(tmaptools)
 library(leaflet)
 library(dplyr)
 
-mydata <- readr::read_csv("Density per Fylker.csv")
+mydata <- readr::read_csv("Density Map/Density per Fylker.csv")
 
-mymap <- st_read("NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
+mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
 
 datamap1 <- inner_join(mymap, mydata)
 
@@ -77,40 +77,123 @@ tmap_save(DensityMap, "DensityMap.html")
 
 #GRAPHS
 
+##Graph1
 ```{r}
-library(WDI)
+library(spiR)
 
-searchGDP <- WDIsearch("pop")
-
-
-totpop <-  WDI(indicator = "SP.POP.TOTL", country = c("IL","JO","LB","EG","SY"), start = 2009, end = 2018)
-
+FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "FOW")
 ```
 
-```{r}
 
-library(WDI)
+```{r}
 library(ggplot2)
 library(plotly)
 
-gdpIL <- WDI(indicator = "NY.GDP.MKTP.CD", country = c("US","DK","FR","GB","NO"), start = 2009, end = 2018)
-gdpIL <- dplyr::rename(gdpIL, GPD = NY.GDP.MKTP.CD)
+graph1 <- ggplot(FOW) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
+ theme_minimal() 
 
-
-graph <- ggplot(gdpIL, aes(x=year, y= GPD, group= country)) + 
-  geom_line(aes(linetype=country, color=country), size=1) +
-  geom_point(colour = "white") + 
-  xlab("Years") + ylab("GDP US$") +
-  ggtitle("GDP (current US$)") +
-  hrbrthemes::theme_ft_rc()
-graph <- ggplotly(graph)
-graph
+graph1 <- ggplotly(graph1)
+graph1
 
 ```
 
+##Graph2
+
+```{r}
+
+library(spiR)
+
+HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "HWE")
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+graph2 <- ggplot(HWE) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
+ theme_minimal() 
+
+graph2 <- ggplotly(graph2)
+graph2
+
+```
+
+##Graph3
+
+```{r}
+
+library(spiR)
+
+SHE_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "SHE_2")
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+graph3 <- ggplot(SHE_2) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
+ theme_minimal() 
+
+graph3 <- ggplotly(graph3)
+graph3
+
+```
+
+##Graph4
+
+```{r}
+
+library(spiR)
+
+EQU_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "EQU_2")
+
+```
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+graph4 <- ggplot(EQU_2) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Greenhouse gas emissions Indicator", title = "Greenhouse gas emissions", color = "Countries") +
+ theme_minimal() 
+
+graph4 <- ggplotly(graph4)
+graph4
+
+```
+
+##Graph5
+
+```{r}
+
+sqs_spi_indicator()
 
 
-
-
+```
 
 
