@@ -11,7 +11,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-///MAP///
+#MAP
+
+##DensityMap
 
 ```{r}
 library(sf)
@@ -25,35 +27,65 @@ mydata <- readr::read_csv("Density per Fylker.csv")
 
 mymap <- st_read("NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
 
-datamap <- inner_join(mymap, mydata)
+datamap1 <- inner_join(mymap, mydata)
 
-tm_shape(datamap) +
-  tm_polygons("Density", id = "NAME_1", palette = "Blues")
+```
 
-#tmap_mode("view")
+
+```{r}
+
+datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0-5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6-10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11-20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21-50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51-100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101-200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201-500", ifelse(datamap1$Density >= 501, "501+", NA))))))))
+
+```
+
+
+```{r}
+
+cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200","201-500", "500+"))
+
+```
+
+```{r}
+
+mylabels <- c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200", "201-500", "500+")
+
+```
+
+
+```{r}
+
+datamap1$Density <- base::cut(datamap1$Density,
+                        breaks = c(0, 5, 10, 20, 50, 100, 200, 500, 2000), 
+                        labels = mylabels, right = F, ordered_result = T)
+
+```
+
+
+```{r}
+
+tm_shape(datamap1) +
+  tm_polygons("Density", id = "NAME_1", palette = "Oranges")+ "Density"
+  theme_minimal()
+  
+tmap_mode("view")
 DensityMap <- tmap_last()
 
-#tmap_save(DensityMap, "DensityMap.html")
+tmap_save(DensityMap, "DensityMap.html")
+
 
 ```
 
+#GRAPHS
 
 ```{r}
+library(WDI)
 
-DensityMap1 <- ifelse(DensityMap$Density >= 1 & DensityMap$Density <= 5, "1-5", ifelse(DensityMap$Density >= 6 & DensityMap$Density <= 10, "6-10", ifelse(DensityMap$Density >= 11 & DensityMap$Density <= 20, "11-20", ifelse(DensityMap$Density >= 21 & DensityMap$Density <= 50, "21-50", ifelse(DensityMap$Density >= 51 & DensityMap$Density <= 100, "51-100", ifelse(DensityMap$Density >= 101 & DensityMap$Density <= 200, "101-200", ifelse(DensityMap$Density >= 201 & DensityMap$Density <= 500, "201-500", ifelse(DensityMap$Density >= 501, "501+", NA))))))))
-DensityMap1
-```
+searchGDP <- WDIsearch("pop")
 
 
-```{r}
-
-cut(DensityMap$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0-5", "6-10", "11-20", "21-50", "51-100", "101-500", "500+"))
+totpop <-  WDI(indicator = "SP.POP.TOTL", country = c("IL","JO","LB","EG","SY"), start = 2009, end = 2018)
 
 ```
-
-
-///GRAPHS///
-
 
 ```{r}
 
@@ -61,16 +93,16 @@ library(WDI)
 library(ggplot2)
 library(plotly)
 
-gdpIL <- WDI(indicator = "NY.GDP.MKTP.CD", country = c("IL","JO","LB","EG","SY"), start = 2009, end = 2018)
+gdpIL <- WDI(indicator = "NY.GDP.MKTP.CD", country = c("US","DK","FR","GB","NO"), start = 2009, end = 2018)
 gdpIL <- dplyr::rename(gdpIL, GPD = NY.GDP.MKTP.CD)
 
 
 graph <- ggplot(gdpIL, aes(x=year, y= GPD, group= country)) + 
   geom_line(aes(linetype=country, color=country), size=1) +
-  geom_point(colour = "purple") + 
+  geom_point(colour = "white") + 
   xlab("Years") + ylab("GDP US$") +
   ggtitle("GDP (current US$)") +
-  hrbrthemes::theme_ipsum_tw()
+  hrbrthemes::theme_ft_rc()
 graph <- ggplotly(graph)
 graph
 
