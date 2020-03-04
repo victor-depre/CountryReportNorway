@@ -75,9 +75,11 @@ tmap_save(DensityMap, "DensityMap.html")
 
 ```
 
+
 #GRAPHS
 
 ##Graph1
+
 ```{r}
 library(spiR)
 
@@ -159,6 +161,8 @@ graph3
 
 ```
 
+
+
 ##Graph4
 
 ```{r}
@@ -169,22 +173,83 @@ EQU_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"),
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "EQU_2")
 
+#Outdoor air pollution attributable deaths EQU_1
+
+EQU_1 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "EQU_1")
+
+EQU_1 <- dplyr::rename(EQU_1, Deaths = value)
+EQU_2 <- dplyr::rename(EQU_2, Emissions = value)
+
+EQU_2 <- EQU_2[order(EQU_2$countryName),]
+EQU_1 <- EQU_1[order(EQU_1$countryName),]
+EQU_2$var_code <- NULL
+EQU_2$var_indicator <- NULL
+EQU_1$var_code <- NULL
+EQU_1$var_indicator <- NULL
+EQU_2$var_year <- NULL
+EQU_1
+EQU_2
+EQUFINAL <- dplyr::left_join(EQU_1, EQU_2, by = "countryName")
+EQUFINAL 
+
+
+```
+
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+graph4 <- ggplot(EQUFINAL, aes(var_year, value, color = countryName)) +
+  geom_point(aes(size = 1, frame = var_year)) +
+  scale_x_log10()
+
+graph4 <- ggplotly(graph6)
+graph4
+
 ```
 
 ```{r}
 library(ggplot2)
 library(plotly)
 
-graph4 <- ggplot(EQU_2) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
+graph4 <- ggplot(EQUFINAL) +
+ aes(x = Deaths, y = Emissions, z = var_year, colour = countryName, group  = countryName) +
+ geom_point(size = 1L) +
+ scale_z_log10() +
  scale_color_hue() +
- labs(x = "Year", y = "Greenhouse gas emissions Indicator", title = "Greenhouse gas emissions", color = "Countries") +
  theme_minimal()
 
 
 graph4 <- ggplotly(graph4)
 graph4
+
+
+
+```
+
+
+
+
+
+
+
+
+```{r}
+library(ggplot2)
+library(plotly)
+
+EQU <- EQU[order(EQU$countryName),]
+EQU
+
+graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
+  geom_point(aes(size = 1, frame = var_year)) +
+  scale_x_log10()
+
+graph6 <- ggplotly(graph6)
+graph6
 
 ```
 
