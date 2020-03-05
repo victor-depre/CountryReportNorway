@@ -1,0 +1,197 @@
+---
+title: "Country report Norway"
+author: "Victor"
+date: "05/03/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Norway map
+
+```{r warning=FALSE, include=FALSE}
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+
+mydata <- readr::read_csv("Density Map/Density per Fylker.csv")
+
+mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1 <- inner_join(mymap, mydata)
+
+datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0-5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6-10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11-20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21-50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51-100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101-200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201-500", ifelse(datamap1$Density >= 501, "501+", NA))))))))
+
+cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200","201-500", "500+"))
+
+mylabels <- c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200", "201-500", "500+")
+
+```
+
+```{r warning=FALSE, include=FALSE}
+
+datamap1$Density <- base::cut(datamap1$Density,
+                        breaks = c(0, 5, 10, 20, 50, 100, 200, 500, 2000), 
+                        labels = mylabels, right = F, ordered_result = T)
+
+```
+
+```{r warning=FALSE, include=FALSE}
+
+tm_shape(datamap1) +
+  tm_polygons("Density", id = "NAME_1", palette = "Oranges")+ "Density"
+  theme_minimal()
+  
+tmap_mode("view")
+DensityMap <- tmap_last()
+
+```
+
+```{r warning=FALSE}
+
+DensityMap
+
+#tmap_save(DensityMap, "DensityMap.html")
+
+```
+
+## Outdoor air polution attributable deaths
+
+```{r, include=FALSE}
+
+library(spiR)
+
+EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "EQU_2")
+
+```
+
+```{r, include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+EQU <- EQU[order(EQU$countryName),]
+
+graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
+  geom_point(aes(size = 1, frame = var_year)) +
+  scale_x_log10() + theme(plot.subtitle = element_text(vjust = 1), 
+    plot.caption = element_text(vjust = 1), 
+    axis.text.y = element_text(size = 5)) +
+    theme(axis.text.y = element_text(size = 7)) + labs(title = "Air pollution attributable deaths") +labs(x = "Year", y = "Deaths per year") + labs(colour = NULL, size = NULL)
+
+graph7 <- ggplotly(graph6)
+graph7
+
+```
+
+```{r}
+graph7
+```
+
+## Health and Wellness in Norway
+
+
+```{r, include=FALSE}
+
+library(spiR)
+
+HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "HWE")
+
+```
+
+```{r, include=FALSE}
+library(ggplot2)
+library(plotly)
+
+graph2 <- ggplot(HWE) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
+ theme_minimal() 
+
+graph2 <- ggplotly(graph2)
+graph2
+
+```
+
+```{r}
+graph2
+```
+
+## Wellbeing indicator in Norway
+
+```{r, include=FALSE}
+library(spiR)
+
+FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "FOW")
+```
+
+```{r, include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph <- ggplot(FOW) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
+ theme_minimal() 
+
+graph1 <- ggplotly(graph)
+graph1
+
+```
+
+```{r}
+graph1
+```
+
+## Quality of Electricity in Norway
+
+```{r, include=FALSE}
+
+library(spiR)
+
+SHE_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "SHE_2")
+
+
+SHE_2
+
+```
+
+```{r warning=FALSE, include=FALSE}
+library(ggplot2)
+library(plotly)
+
+graph3 <- ggplot(SHE_2) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
+ theme_minimal() 
+
+graph31 <- ggplotly(graph3)
+graph31
+
+```
+
+```{r}
+graph31
+```
+
+
