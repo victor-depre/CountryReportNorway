@@ -27,7 +27,7 @@ mydata <- readr::read_csv("Density Map/Density per Fylker.csv")
 
 mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
 
-datamap1 <- inner_join(mymap, mydata)
+datamap1 <- inner_join(mymap, mydata) 
 
 datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0-5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6-10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11-20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21-50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51-100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101-200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201-500", ifelse(datamap1$Density >= 501, "501+", NA))))))))
 
@@ -250,7 +250,7 @@ Listofindicators
 ```
 
 
-```{r}
+```{r include=FALSE}
 library(WDI)
 library(ggplot2)
 library(plotly)
@@ -261,12 +261,17 @@ TB
 graphTB <- ggplot(TB) +
  aes(x = year, y = NE.RSB.GNFS.CD, fill = country) +
  geom_area(size = 1L) +
- scale_fill_brewer(palette = "Dark2") +
+ scale_fill_brewer(palette = "PuOr") +
  labs(y = "dollars", title = "Norway's trade balance (in $)") +
  theme_minimal() +
  theme(legend.position = "none")
 
 DynagraphTB <- ggplotly(graphTB)
+
+```
+
+```{r}
+
 DynagraphTB
 
 ```
@@ -290,14 +295,10 @@ DynagraphTB
 IndexEcoFree <- data.frame(
   stringsAsFactors = FALSE,
   Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
-  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60)) ## 2019 Index of Economic Freedom,
-```
+  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60))
 
-```{r include=FALSE}
 IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
-```
 
-```{r include=FALSE}
 IndexEcoFree1 <- ggplot(IndexEcoFree, 
             aes(x = Category, y = Score, color = Score, label = Score)) +
   geom_col(aes(fill = Score)) +
@@ -311,10 +312,12 @@ IndexEcoFree1 <- ggplot(IndexEcoFree,
   theme(panel.background = element_rect(fill = "gray98")) +
   theme(plot.title = element_text(hjust = 0.5))
   
+DynagraphEF <- ggplotly(IndexEcoFree1)
+
 ```
 
 ```{r}
-DynagraphEF <- ggplotly(IndexEcoFree1)
+
 DynagraphEF
   
 ```
@@ -324,24 +327,19 @@ DynagraphEF
 
 
 ```{r include=FALSE}
+
 IndexEcoFreeRanking <- data.frame(
   stringsAsFactors = FALSE,
-  Category=c("Singapore", "Hong Kong", "New Zealandy", "Australia", "Switzerland", "Ireland", "United Kingdom", "Denmark", "Canada", "Estonia", "Taiwan", "Georgia", "Iceland", "Netherlands", "Chile", "Lithuania", "United States", "United Arab Emirates", "Luxembourg", "	
-Finland", "Mauritius", "Sweden", "Czech Republic", "Malaysia", "	
-South Korea", "Israel", "Germany", "Norway", "Austria", "Japan"),
-  Score=c(89.4	, 89.1, 84.1, 82.6	, 82.0	, 80.9, 79.3	, 78.3, 78.2, 77.7, 77.1, 77.1, 77.1, 77.0, 76.8, 76.7, 76.6, 76.2	, 75.8, 75.7, 74.9, 74.9, 74.8, 74.7	, 74.0, 74.0, 73.5, 73.4, 73.3, 73.3)) ## 2019 Index of Economic Freedom,
-```
+  Category=c("Singapore", "Hong Kong", "New Zealandy", "Australia", "Switzerland", "Ireland", "United Kingdom", "Denmark", "Canada", "Estonia", "Taiwan", "Georgia", "Iceland", "Netherlands", "Chile", "Lithuania", "United States", "United Arab Emirates", "Luxembourg", "Finland ", "Mauritius", "Sweden", "Czech Republic", "Malaysia", "South Korea", "Israel", "Germany", "Norway", "Austria", "Japan"),
+  Score=c(89.4	, 89.1, 84.1, 82.6	, 82.0	, 80.9, 79.3	, 78.3, 78.2, 77.7, 77.1, 77.1, 77.1, 77.0, 76.8, 76.7, 76.6, 76.2	, 75.8, 75.7, 74.9, 74.9, 74.8, 74.7	, 74.0, 74.0, 73.5, 73.4, 73.3, 73.3)) 
 
-```{r include=FALSE}
 IndexEcoFreeRanking$Category <- with(IndexEcoFreeRanking, reorder(Category, +Score))
-```
 
-```{r}
 IndexEcoFreeRanking1 <- ggplot(IndexEcoFreeRanking, 
             aes(x = Category, y = Score, color = Score, label = Score)) +
   geom_col(aes(fill = Score)) +
-  ggtitle("Index of Economic Freedom, 2019") + 
-  xlab("Category") + ylab("Score") + 
+  ggtitle("Ranking average scores") + 
+  xlab("Country") + ylab("Score") + 
   coord_flip() +
   labs(caption = "Source: www.heritage.org") +
   scale_fill_distiller(palette = "Oranges", trans = "reverse") +
@@ -352,6 +350,11 @@ IndexEcoFreeRanking1 <- ggplot(IndexEcoFreeRanking,
   panel.background = element_rect(fill = "gray98")) +labs(caption = NULL)
   
 DynagraphRK <- ggplotly(IndexEcoFreeRanking1)
+
+```
+
+```{r}
+
 DynagraphRK
   
 ```
