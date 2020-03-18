@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##DensityMap
 
-```{r}
+```{r warning=FALSE, include=FALSE}
 library(sf)
 library(ggplot2)
 library(tmap)
@@ -29,30 +29,15 @@ mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FAL
 
 datamap1 <- inner_join(mymap, mydata)
 
-```
-
-
-```{r}
-
 datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0-5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6-10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11-20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21-50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51-100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101-200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201-500", ifelse(datamap1$Density >= 501, "501+", NA))))))))
 
-```
-
-
-```{r}
-
 cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200","201-500", "500+"))
-
-```
-
-```{r}
 
 mylabels <- c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200", "201-500", "500+")
 
 ```
 
-
-```{r}
+```{r warning=FALSE, include=FALSE}
 
 datamap1$Density <- base::cut(datamap1$Density,
                         breaks = c(0, 5, 10, 20, 50, 100, 200, 500, 2000), 
@@ -60,8 +45,7 @@ datamap1$Density <- base::cut(datamap1$Density,
 
 ```
 
-
-```{r}
+```{r warning=FALSE, include=FALSE}
 
 tm_shape(datamap1) +
   tm_polygons("Density", id = "NAME_1", palette = "Oranges")+ "Density"
@@ -70,44 +54,64 @@ tm_shape(datamap1) +
 tmap_mode("view")
 DensityMap <- tmap_last()
 
-tmap_save(DensityMap, "DensityMap.html")
+```
 
+```{r warning=FALSE}
+
+DensityMap
+
+#tmap_save(DensityMap, "DensityMap.html")
 
 ```
 
+Description
+
+This map highlights the great disparity that exists on the Norwegian territory in terms of density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a density of less than 20 inhabitants per km². By way of comparison, the average density in France is about 117 inhabitants per km² compared to 13 in Norway. 
 
 #GRAPHS
 
 ##Graph1
 
-```{r}
+Air pollution
+
+```{r, include=FALSE}
+
 library(spiR)
 
-FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "FOW")
+                       indicators = "EQU_2")
+
 ```
 
+```{r, include=FALSE}
 
-```{r}
 library(ggplot2)
 library(plotly)
 
-graph1 <- ggplot(FOW) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
- scale_color_hue() +
- labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
- theme_minimal() 
+EQU <- EQU[order(EQU$countryName),]
 
-graph1 <- ggplotly(graph1)
-graph1
+graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
+  geom_point(aes(size = 1, frame = var_year)) +
+  scale_x_log10() + theme(plot.subtitle = element_text(vjust = 1), 
+    plot.caption = element_text(vjust = 1), 
+    axis.text.y = element_text(size = 5)) +
+    theme(axis.text.y = element_text(size = 7)) + labs(title = "Air pollution attributable deaths") +labs(x = "Year", y = "Deaths per year") + labs(colour = NULL, size = NULL)
+
+graph7 <- ggplotly(graph6)
+graph7
 
 ```
 
-##Graph2
-
 ```{r}
+graph7
+```
+
+##GRAPH2
+
+Health and Wellness 
+
+```{r, include=FALSE}
 
 library(spiR)
 
@@ -117,14 +121,14 @@ HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"),
 
 ```
 
-```{r}
+```{r, include=FALSE}
 library(ggplot2)
 library(plotly)
 
 graph2 <- ggplot(HWE) +
  aes(x = var_year, y = value, colour = countryName, group = countryName) +
  geom_line(size = 1.2) +
- scale_color_hue() +
+ scale_color_hue() + 
  labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
  theme_minimal() 
 
@@ -133,9 +137,48 @@ graph2
 
 ```
 
-##Graph3
+```{r}
+graph2
+```
+
+##GRAPH3
+
+Wellbeing
+
+```{r, include=FALSE}
+library(spiR)
+
+FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "FOW")
+```
+
+```{r, include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph <- ggplot(FOW) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
+ theme_minimal() 
+
+graph1 <- ggplotly(graph)
+graph1
+
+```
 
 ```{r}
+graph1
+```
+
+##GRAPH4
+
+Electricty Quality 
+
+```{r, include=FALSE}
 
 library(spiR)
 
@@ -143,9 +186,12 @@ SHE_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"),
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "SHE_2")
 
+
+SHE_2
+
 ```
 
-```{r}
+```{r, include=FALSE}
 library(ggplot2)
 library(plotly)
 
@@ -156,138 +202,176 @@ graph3 <- ggplot(SHE_2) +
  labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
  theme_minimal() 
 
-graph3 <- ggplotly(graph3)
-graph3
+graph31 <- ggplotly(graph3)
+graph31
 
 ```
 
+```{r}
+graph31
+```
 
 
-##Graph4
+	SPI
 
 ```{r}
-
 library(spiR)
-
-EQU_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "EQU_2")
-
-#Outdoor air pollution attributable deaths EQU_1
-
-EQU_1 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "EQU_1")
-
-EQU_1 <- dplyr::rename(EQU_1, Deaths = value)
-EQU_2 <- dplyr::rename(EQU_2, Emissions = value)
-
-EQU_2 <- EQU_2[order(EQU_2$countryName),]
-EQU_1 <- EQU_1[order(EQU_1$countryName),]
-EQU_2$var_code <- NULL
-EQU_2$var_indicator <- NULL
-EQU_1$var_code <- NULL
-EQU_1$var_indicator <- NULL
-EQU_2$var_year <- NULL
-EQU_1
-EQU_2
-EQUFINAL <- dplyr::left_join(EQU_1, EQU_2, by = "countryName")
-EQUFINAL 
-
-
-```
-
-
-```{r}
-library(ggplot2)
-library(plotly)
-
-graph4 <- ggplot(EQUFINAL, aes(var_year, value, color = countryName)) +
-  geom_point(aes(size = 1, frame = var_year)) +
-  scale_x_log10()
-
-graph4 <- ggplotly(graph6)
-graph4
-
-```
-
-```{r}
-library(ggplot2)
-library(plotly)
-
-graph4 <- ggplot(EQUFINAL) +
- aes(x = Deaths, y = Emissions, z = var_year, colour = countryName, group  = countryName) +
- geom_point(size = 1L) +
- scale_z_log10() +
- scale_color_hue() +
- theme_minimal()
-
-
-graph4 <- ggplotly(graph4)
-graph4
-
-
-
-```
-
-
-
-
-
-
-
-
-```{r}
-library(ggplot2)
-library(plotly)
-
-EQU <- EQU[order(EQU$countryName),]
-EQU
-
-graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
-  geom_point(aes(size = 1, frame = var_year)) +
-  scale_x_log10()
-
-graph6 <- ggplotly(graph6)
-graph6
-
-```
-
-##Graph5
-
-```{r}
-
 sqs_spi_indicator()
-
-
 ```
 
 
 
-##Graph6
-
 ```{r}
-
 library(spiR)
 
-EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+SPI <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "EQU_2")
+                       indicators = "SPI")
 
+SPI
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+```{r include=FALSE}
+library(WDI)
+Listofindicators <- WDIsearch()
+Listofindicators
+```
+
+
 ```{r}
+library(WDI)
 library(ggplot2)
 library(plotly)
 
-EQU <- EQU[order(EQU$countryName),]
-EQU
+TB <- WDI(indicator = "NE.RSB.GNFS.CD", country = c("NOR"), start = 1970, end = 2020)
+TB
 
-graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
-  geom_point(aes(size = 1, frame = var_year)) +
-  scale_x_log10()
+graphTB <- ggplot(TB) +
+ aes(x = year, y = NE.RSB.GNFS.CD, fill = country) +
+ geom_area(size = 1L) +
+ scale_fill_brewer(palette = "Dark2") +
+ labs(y = "dollars", title = "Norway's trade balance (in $)") +
+ theme_minimal() +
+ theme(legend.position = "none")
 
-graph6 <- ggplotly(graph6)
-graph6
+DynagraphTB <- ggplotly(graphTB)
+DynagraphTB
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r include=FALSE}
+IndexEcoFree <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
+  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60)) ## 2019 Index of Economic Freedom,
+```
+
+```{r include=FALSE}
+IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
+```
+
+```{r include=FALSE}
+IndexEcoFree1 <- ggplot(IndexEcoFree, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("Index of Economic Freedom, 2019") + 
+  xlab("Category") + ylab("Score") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
+  scale_color_distiller(palette = "Oranges", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(panel.background = element_rect(fill = "gray98")) +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+```
+
+```{r}
+DynagraphEF <- ggplotly(IndexEcoFree1)
+DynagraphEF
+  
+```
+
+
+
+
+
+```{r include=FALSE}
+IndexEcoFreeRanking <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Singapore", "Hong Kong", "New Zealandy", "Australia", "Switzerland", "Ireland", "United Kingdom", "Denmark", "Canada", "Estonia", "Taiwan", "Georgia", "Iceland", "Netherlands", "Chile", "Lithuania", "United States", "United Arab Emirates", "Luxembourg", "	
+Finland", "Mauritius", "Sweden", "Czech Republic", "Malaysia", "	
+South Korea", "Israel", "Germany", "Norway", "Austria", "Japan"),
+  Score=c(89.4	, 89.1, 84.1, 82.6	, 82.0	, 80.9, 79.3	, 78.3, 78.2, 77.7, 77.1, 77.1, 77.1, 77.0, 76.8, 76.7, 76.6, 76.2	, 75.8, 75.7, 74.9, 74.9, 74.8, 74.7	, 74.0, 74.0, 73.5, 73.4, 73.3, 73.3)) ## 2019 Index of Economic Freedom,
+```
+
+```{r include=FALSE}
+IndexEcoFreeRanking$Category <- with(IndexEcoFreeRanking, reorder(Category, +Score))
+```
+
+```{r}
+IndexEcoFreeRanking1 <- ggplot(IndexEcoFreeRanking, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("Index of Economic Freedom, 2019") + 
+  xlab("Category") + ylab("Score") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
+  scale_color_distiller(palette = "Oranges", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text = element_text(size = 7), 
+  panel.background = element_rect(fill = "gray98")) +labs(caption = NULL)
+  
+DynagraphRK <- ggplotly(IndexEcoFreeRanking1)
+DynagraphRK
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
