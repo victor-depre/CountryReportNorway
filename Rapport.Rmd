@@ -29,11 +29,11 @@ mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FAL
 
 datamap1 <- inner_join(mymap, mydata) 
 
-datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0-5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6-10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11-20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21-50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51-100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101-200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201-500", ifelse(datamap1$Density >= 501, "501+", NA))))))))
+datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0 to 5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6 to 10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11 to 20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21 to 50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51 to 100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101 to 200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201 to 500", ifelse(datamap1$Density >= 501, "501 or more", NA))))))))
 
-cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200","201-500", "500+"))
+cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200","201 to 500", "500 or more"))
 
-mylabels <- c("0-5", "6-10", "11-20", "21-50", "51-100", "101-200", "201-500", "500+")
+mylabels <- c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200", "201 to 500", "500 or more")
 
 ```
 
@@ -60,13 +60,133 @@ DensityMap <- tmap_last()
 
 DensityMap
 
-#tmap_save(DensityMap, "DensityMap.html")
+tmap_save(DensityMap, "DensityMap.html")
 
 ```
 
 Description
 
-This map highlights the great disparity that exists on the Norwegian territory in terms of density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a density of less than 20 inhabitants per km². By way of comparison, the average density in France is about 117 inhabitants per km² compared to 13 in Norway. 
+This map highlights the great disparity that exists on the Norwegian territory in terms of Density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a Density of less than 20 inhabitants per km². By way of comparison, the average Density in France is about 117 inhabitants per km² compared to 13 in Norway. 
+
+
+##GdpMap
+
+```{r include=FALSE}
+
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+
+mydatabis <- readr::read_csv("Gdp Map/GDPperFylker.csv")
+
+mymapbis <- st_read("Gdp Map/NORWAY SHAPE BIS/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1bis <- inner_join(mymapbis, mydatabis) 
+
+
+```
+
+```{r warning=FALSE, include=FALSE}
+
+tm_shape(datamap1bis) +
+  tm_polygons("GDP, millions of euro", id = "NAME_1", palette = "Greens")+ "GDP"
+  theme_minimal()
+  
+tmap_mode("view")
+GdpMap <- tmap_last()
+
+```
+
+```{r warning=FALSE}
+
+GdpMap
+
+tmap_save(GdpMap, "GdpMap.html")
+
+```
+
+##MigrationMap
+
+```{r include=FALSE}
+
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+
+mydatabisbis <- readr::read_csv("Migration Map/MigrationRateperFylker.csv")
+
+mymapbisbis <- st_read("Migration Map/NORWAY SHAPE BIS BIS/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1bisbis <- inner_join(mymapbisbis, mydatabisbis) 
+
+
+```
+
+```{r warning=FALSE, include=FALSE}
+
+tm_shape(datamap1bisbis) +
+  tm_polygons("Net migration rate, %", id = "NAME_1", palette = "Blues")+ "Net migration rate, %"
+  theme_minimal()
+  
+tmap_mode("view")
+MigrationMap <- tmap_last()
+
+```
+
+```{r warning=FALSE}
+
+MigrationMap
+
+tmap_save(MigrationMap, "MigrationMap.html")
+
+```
+
+
+##UNEMPLOYMENTMAP
+
+```{r include=FALSE}
+
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+
+mydatabisbisbis <- readr::read_csv("Unemployment Map/Unemployment per Fylker.csv")
+
+mymapbisbisbis <- st_read("Unemployment Map/NORWAY SHAPE BIS BIS BIS/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1bisbisbis <- inner_join(mymapbisbisbis, mydatabisbisbis) 
+
+
+```
+
+```{r warning=FALSE, include=FALSE}
+
+tm_shape(datamap1bisbisbis) +
+  tm_polygons("Unemployment rate, %", id = "NAME_1", palette = "Purples")+ "Unemployment rate, %"
+  theme_minimal()
+  
+tmap_mode("view")
+UnemploymentMap <- tmap_last()
+
+```
+
+```{r warning=FALSE}
+
+UnemploymentMap
+
+tmap_save(UnemploymentMap, "UnemploymentMap.html")
+
+```
+
 
 #GRAPHS
 
@@ -212,7 +332,7 @@ graph31
 ```
 
 
-	SPI
+##GRAPH5
 
 ```{r}
 library(spiR)
@@ -241,7 +361,7 @@ SPI
 
 
 
-
+##GRAPH6
 
 ```{r include=FALSE}
 library(WDI)
@@ -289,7 +409,7 @@ DynagraphTB
 
 
 
-
+##GRAPH7
 
 ```{r include=FALSE}
 IndexEcoFree <- data.frame(
@@ -324,7 +444,7 @@ DynagraphEF
 
 
 
-
+##GRAPH8
 
 ```{r include=FALSE}
 
