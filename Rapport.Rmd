@@ -1,77 +1,148 @@
 ---
-title: "Rapport"
-author: "Victor"
-date: "1/22/2020"
+title: '**Country Report Norway**'
+author: "Victor Dépré / Skema Business School"
+date: "03/20/2020"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    toc: 2
+  pdf_document:
+    toc: 2
 ---
-
+<style>
+.html-widget {
+margin: auto;
+}
+</style>
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#MAP
 
-##DensityMap
+---
 
-```{r warning=FALSE, include=FALSE}
-library(sf)
-library(ggplot2)
-library(tmap)
-library(tmaptools)
-library(leaflet)
-library(dplyr)
+# Introduction
 
-mydata <- readr::read_csv("Density Map/Density per Fylker.csv")
+---
 
-mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
+Norway is a very interesting country that is quite exemplary and could inspire many other countries in economic, social and especially environmental terms.
 
-datamap1 <- inner_join(mymap, mydata) 
+* Historically, Norway has long been one of the poorest countries in Europe, but the very interesting development of this country has made it today a rich country with a very high standard of living and well-being. With an HDI of 0.954 in 2018, Norway defies all competition and is in pole position worldwide. Add to this the ecological awareness of its citizens, which has made Norway one of the precursors of the ecological transition and we have a country that is more than exemplary, both economically and socially as well as environmentally.
 
-datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0 to 5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6 to 10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11 to 20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21 to 50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51 to 100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101 to 200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201 to 500", ifelse(datamap1$Density >= 501, "501 or more", NA))))))))
+* Norway’s economy, since the beginning of the industrial revolution, has shown solid growth. The transport of goods is an important part of Norway’s exportations, but economic growth is also largely due to the abundance of natural resources in the country such as oil and hydroelectricity. The exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Moreover, its public sector is one of the largest in the world in relation to its GDP.
 
-cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200","201 to 500", "500 or more"))
-
-mylabels <- c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200", "201 to 500", "500 or more")
-
-```
-
-```{r warning=FALSE, include=FALSE}
-
-datamap1$Density <- base::cut(datamap1$Density,
-                        breaks = c(0, 5, 10, 20, 50, 100, 200, 500, 2000), 
-                        labels = mylabels, right = F, ordered_result = T)
-
-```
-
-```{r warning=FALSE, include=FALSE}
-
-tm_shape(datamap1) +
-  tm_polygons("Density", id = "NAME_1", palette = "Oranges")+ "Density"
-  theme_minimal()
-  
-tmap_mode("view")
-DensityMap <- tmap_last()
-
-```
-
-```{r warning=FALSE}
-
-DensityMap
-
-tmap_save(DensityMap, "DensityMap.html")
-
-```
-
-Description
-
-This map highlights the great disparity that exists on the Norwegian territory in terms of Density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a Density of less than 20 inhabitants per km². By way of comparison, the average Density in France is about 117 inhabitants per km² compared to 13 in Norway. 
+* On top of that Norway is a very environmentally committed country. For example, last June Norway announced that the sale of petrol cars would be banned by 2025. The country is already among the European countries offering the most tax incentives for buying electric cars. Norway has also become the first country to ban deforestation. Public procurement will now have to exclude any offer from a company whose products may have contributed to deforestation. The Norwegian Parliament has announced that the country will aim for carbon neutrality by 2030, 20 years ahead of the target of reducing net greenhouse gas emissions, which are responsible for global warming, to zero and nearly all of the country’s electricity production is already clean, since it is hydroelectric.
 
 
-##GdpMap
+
+
+
+
+**Outline**
+
+* **Part 1** : Economic Analysis.
+
+* **Part 2** : Social Analysis.
+
+* **Part 3** : Environmental Analysis.
+
+* **Part 4** : Demographic Analysis.
+
+
+---------------
+
+# Economic Analysis
+
+--------------------
+
+Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+
+Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
+Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+
+**Summary**
+
+* **Norway's main business sectors.**
+
+* **Norway's trade balance.**
+
+* **Gdp per fylker map**
+
+* **Norway's ranking considering the Index of economical freedom**
+
+* **Detail of the Index of economical freedom**
+
+
+## Norway's main business sectors
 
 ```{r include=FALSE}
+library(ggplot2)
+library(plotly)
+
+PNBperCategory <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Agriculture", "Forest", "Fisheries and aquaculture", "Oil and Gas Development", "Mining extraction", "Industry", "Power supply", "Construction and public works", "Commerce", "Hotels and Restaurants", "Transport in pipes", "Other transports", "Post and telecoms", "Maritime trade", "Banking and Insurance", "Real Estate Services", "Business Services", "Services to the private sector", "Delivery of Public Management Services", "Correction Posts "),
+  Score=c(0.6, 0.3, 0.5, 19.8	, 0.2	, 9.2, 2	, 4, 7.9, 1.2, 1.2, 2.7, 1.8, 1.7, 3.3, 5, 8.7, 4.7	, 15.6, 9.7))
+
+PNBperCategory$Category <- with(PNBperCategory, reorder(Category, +Score))
+
+PNBperCategory1 <- ggplot(PNBperCategory, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("% of PNB per category") + 
+  xlab("Country") + ylab("% of PNB") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Set2", trans = "reverse") +
+  scale_color_distiller(palette = "Set2", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text = element_text(size = 7), 
+  panel.background = element_rect(fill = "gray98")) +labs(caption = NULL)
+  
+DynagraphPNBPC <- ggplotly(PNBperCategory1)
+
+```
+
+```{r echo=FALSE}
+
+DynagraphPNBPC
+  
+```
+
+## Norways Trade Balance
+
+```{r include=FALSE}
+library(WDI)
+library(ggplot2)
+library(plotly)
+
+TB <- WDI(indicator = "NE.RSB.GNFS.CD", country = c("NOR"), start = 1970, end = 2020)
+TB
+
+graphTB <- ggplot(TB) +
+ aes(x = year, y = NE.RSB.GNFS.CD, fill = country) +
+ geom_area(size = 1L) +
+ scale_fill_brewer(palette = "PuOr") +
+ labs(y = "dollars", title = "Norway's trade balance (in $)") +
+ theme_minimal() +
+ theme(legend.position = "none")
+
+DynagraphTB <- ggplotly(graphTB)
+
+```
+
+The balance of trade in goods and services is the difference between exports of goods and services and imports of goods and services, expressed in dollars. A positive balance indicates that exports exceed imports in value (trade surplus). A negative balance, on the contrary, indicates that imports exceed exports in value (trade deficit). The statistics relate this balance to the size of economic activity (GDP).
+
+
+```{r echo=FALSE}
+
+DynagraphTB
+
+```
+
+## GDP Map
+
+```{r warning=TRUE, include=FALSE}
 
 library(sf)
 library(ggplot2)
@@ -100,55 +171,130 @@ GdpMap <- tmap_last()
 
 ```
 
-```{r warning=FALSE}
+```{r echo=FALSE, warning=FALSE}
 
 GdpMap
 
-tmap_save(GdpMap, "GdpMap.html")
+#tmap_save(GdpMap, "GdpMap.html")
 
 ```
 
-##MigrationMap
+
+## Index of Economical Freedom
 
 ```{r include=FALSE}
 
-library(sf)
-library(ggplot2)
-library(tmap)
-library(tmaptools)
-library(leaflet)
-library(dplyr)
+library(plotly)
 
-mydatabisbis <- readr::read_csv("Migration Map/MigrationRateperFylker.csv")
+IndexEcoFree <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
+  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60))
 
-mymapbisbis <- st_read("Migration Map/NORWAY SHAPE BIS BIS/NOR_adm1.shp", stringsAsFactors = FALSE)
+IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
 
-datamap1bisbis <- inner_join(mymapbisbis, mydatabisbis) 
-
-
-```
-
-```{r warning=FALSE, include=FALSE}
-
-tm_shape(datamap1bisbis) +
-  tm_polygons("Net migration rate, %", id = "NAME_1", palette = "Blues")+ "Net migration rate, %"
-  theme_minimal()
+IndexEcoFree1 <- ggplot(IndexEcoFree, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("Index of Economic Freedom, 2019") + 
+  xlab("Category") + ylab("Score") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
+  scale_color_distiller(palette = "Oranges", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(panel.background = element_rect(fill = "gray98")) +
+  theme(plot.title = element_text(hjust = 0.5))
   
-tmap_mode("view")
-MigrationMap <- tmap_last()
+DynagraphEF <- ggplotly(IndexEcoFree1)
 
 ```
 
-```{r warning=FALSE}
+```{r echo=FALSE}
 
-MigrationMap
+DynagraphEF
+  
+```
 
-tmap_save(MigrationMap, "MigrationMap.html")
+## Norways Ranking
+
+```{r include=FALSE}
+
+IndexEcoFreeRanking <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Singapore", "Hong Kong", "New Zealandy", "Australia", "Switzerland", "Ireland", "United Kingdom", "Denmark", "Canada", "Estonia", "Taiwan", "Georgia", "Iceland", "Netherlands", "Chile", "Lithuania", "United States", "United Arab Emirates", "Luxembourg", "Finland ", "Mauritius", "Sweden", "Czech Republic", "Malaysia", "South Korea", "Israel", "Germany", "Norway", "Austria", "Japan"),
+  Score=c(89.4	, 89.1, 84.1, 82.6	, 82.0	, 80.9, 79.3	, 78.3, 78.2, 77.7, 77.1, 77.1, 77.1, 77.0, 76.8, 76.7, 76.6, 76.2	, 75.8, 75.7, 74.9, 74.9, 74.8, 74.7	, 74.0, 74.0, 73.5, 73.4, 73.3, 73.3)) 
+
+IndexEcoFreeRanking$Category <- with(IndexEcoFreeRanking, reorder(Category, +Score))
+
+IndexEcoFreeRanking1 <- ggplot(IndexEcoFreeRanking, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("Ranking average scores") + 
+  xlab("Country") + ylab("Score") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
+  scale_color_distiller(palette = "Oranges", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text = element_text(size = 7), 
+  panel.background = element_rect(fill = "gray98")) +labs(caption = NULL)
+  
+DynagraphRK <- ggplotly(IndexEcoFreeRanking1)
 
 ```
 
+```{r echo=FALSE}
 
-##UNEMPLOYMENTMAP
+DynagraphRK
+  
+```
+
+
+
+
+
+
+---------------
+
+# Social Analysis
+
+--------------------
+
+## Wellbeing
+
+```{r, include=FALSE}
+library(spiR)
+
+FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "FOW")
+```
+
+```{r, include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph <- ggplot(FOW) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
+ theme_minimal() 
+
+graph1 <- ggplotly(graph)
+graph1
+
+```
+
+```{r echo=FALSE}
+graph1
+```
+
+## Unemployment Map
+
 
 ```{r include=FALSE}
 
@@ -179,20 +325,93 @@ UnemploymentMap <- tmap_last()
 
 ```
 
-```{r warning=FALSE}
+```{r echo=FALSE, warning=FALSE}
 
 UnemploymentMap
 
-tmap_save(UnemploymentMap, "UnemploymentMap.html")
+#tmap_save(UnemploymentMap, "UnemploymentMap.html")
 
 ```
 
 
-#GRAPHS
+## Health and Wellness
 
-##Graph1
+```{r, include=FALSE}
 
-Air pollution
+library(spiR)
+
+HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "HWE")
+
+```
+
+```{r, include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph2 <- ggplot(HWE) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() + 
+ labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
+ theme_minimal()
+
+graph2 <- ggplotly(graph2)
+graph2
+    
+``` 
+
+```{r echo=FALSE}
+graph2
+``` 
+
+
+---------------
+
+# Environmental Analysis
+
+--------------------
+
+
+## Electricty Quality 
+
+```{r, include=FALSE}
+
+library(spiR)
+
+SHE_2 <- sqs_spi_data(country = c("AUS", "USA", "NOR", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "SHE_2")
+
+
+SHE_2
+
+```
+
+```{r include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph3 <- ggplot(SHE_2) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
+ theme_minimal() 
+
+graph31 <- ggplotly(graph3)
+graph31
+
+```
+
+```{r echo=FALSE}
+graph31
+```
+
+## Air pollution
 
 ```{r, include=FALSE}
 
@@ -223,117 +442,147 @@ graph7
 
 ```
 
-```{r}
+```{r echo=FALSE}
 graph7
 ```
 
-##GRAPH2
+---------------
 
-Health and Wellness 
+# Demographic Analysis
 
-```{r, include=FALSE}
+--------------------
 
-library(spiR)
+## Density Map
 
-HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "HWE")
+```{r warning=FALSE, include=FALSE}
+library(sf)
+library(ggplot2)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
+
+mydata <- readr::read_csv("Density Map/Density per Fylker.csv")
+
+mymap <- st_read("Density Map/NORWAY SHAPE/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1 <- inner_join(mymap, mydata) 
+
+datamap2 <- ifelse(datamap1$Density >= 0 & datamap1$Density <= 5, "0 to 5", ifelse(datamap1$Density >= 6 & datamap1$Density <= 10, "6 to 10", ifelse(datamap1$Density >= 11 & datamap1$Density <= 20, "11 to 20", ifelse(datamap1$Density >= 21 & datamap1$Density <= 50, "21 to 50", ifelse(datamap1$Density >= 51 & datamap1$Density <= 100, "51 to 100", ifelse(datamap1$Density >= 101 & datamap1$Density <= 200, "101 to 200", ifelse(datamap1$Density >= 201 & datamap1$Density <= 500, "201 to 500", ifelse(datamap1$Density >= 501, "501 or more", NA))))))))
+
+cut(datamap1$Density, breaks=c(0, 5, 10, 20, 50, 100, 200, 500, Inf), labels=c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200","201 to 500", "500 or more"))
+
+mylabels <- c("0 to 5", "6 to 10", "11 to 20", "21 to 50", "51 to 100", "101 to 200", "201 to 500", "500 or more")  
 
 ```
 
-```{r, include=FALSE}
-library(ggplot2)
+```{r warning=FALSE, include=FALSE}
+
+datamap1$Density <- base::cut(datamap1$Density,
+                        breaks = c(0, 5, 10, 20, 50, 100, 200, 500, 2000), 
+                        labels = mylabels, right = F, ordered_result = T)
+
+```
+
+```{r include=FALSE}
+
+tm_shape(datamap1) +
+  tm_polygons("Density", id = "NAME_1", palette = "Oranges")+ "Density"
+  theme_minimal()
+
+tmap_mode("view")
+DensityMap <- tmap_last()
+
+```
+
+```{r echo=FALSE, warning=FALSE}
+
+DensityMap
+
+#tmap_save(DensityMap, "DensityMap.html")
+
+```
+
+
+This map highlights the great disparity that exists on the Norwegian territory in terms of Density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a Density of less than 20 inhabitants per km². By way of comparison, the average Density in France is about 117 inhabitants per km² compared to 13 in Norway. 
+
+
+## Norways Density Forecast
+
+```{r include=FALSE}
+
+library(readxl)
+library(forecast)
+
+DensityPerYear <- read_xlsx("DensityPerYear.xlsx")
+
+tsDensityPerYear <- ts(DensityPerYear$Density, frequency = 1, start = c(1970))
+
+autoarima1 <- auto.arima(tsDensityPerYear)
+
+forecast1 <- forecast(autoarima1, h=32)
+
+```
+
+```{r echo=FALSE}
+library(autoplotly)
 library(plotly)
 
-graph2 <- ggplot(HWE) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
- scale_color_hue() + 
- labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
- theme_minimal() 
+forecast1
 
-graph2 <- ggplotly(graph2)
-graph2
+autoplotly(forecast1)
 
 ```
 
-```{r}
-graph2
-```
 
-##GRAPH3
+## Migration Map
 
-Wellbeing
 
-```{r, include=FALSE}
-library(spiR)
+```{r include=FALSE}
 
-FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "FOW")
-```
-
-```{r, include=FALSE}
-
+library(sf)
 library(ggplot2)
-library(plotly)
+library(tmap)
+library(tmaptools)
+library(leaflet)
+library(dplyr)
 
-graph <- ggplot(FOW) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
- scale_color_hue() +
- labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
- theme_minimal() 
+mydatabisbis <- readr::read_csv("Migration Map/MigrationRateperFylker.csv")
 
-graph1 <- ggplotly(graph)
-graph1
+mymapbisbis <- st_read("Migration Map/NORWAY SHAPE BIS BIS/NOR_adm1.shp", stringsAsFactors = FALSE)
+
+datamap1bisbis <- inner_join(mymapbisbis, mydatabisbis) 
+
 
 ```
 
-```{r}
-graph1
-```
+```{r warning=FALSE, include=FALSE}
 
-##GRAPH4
-
-Electricty Quality 
-
-```{r, include=FALSE}
-
-library(spiR)
-
-SHE_2 <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "SHE_2")
-
-
-SHE_2
+tm_shape(datamap1bisbis) +
+  tm_polygons("Net migration rate, %", id = "NAME_1", palette = "Blues")+ "Net migration rate, %"
+  theme_minimal()
+  
+tmap_mode("view")
+MigrationMap <- tmap_last()
 
 ```
 
-```{r, include=FALSE}
-library(ggplot2)
-library(plotly)
+```{r echo=FALSE, warning=FALSE}
 
-graph3 <- ggplot(SHE_2) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
- scale_color_hue() +
- labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
- theme_minimal() 
+MigrationMap
 
-graph31 <- ggplotly(graph3)
-graph31
+#tmap_save(MigrationMap, "MigrationMap.html")
 
 ```
 
-```{r}
-graph31
-```
 
 
-##GRAPH5
 
+---------------
+
+
+
+--------------
 ```{r}
 library(spiR)
 sqs_spi_indicator()
@@ -361,140 +610,10 @@ SPI
 
 
 
-##GRAPH6
+
 
 ```{r include=FALSE}
 library(WDI)
 Listofindicators <- WDIsearch()
 Listofindicators
 ```
-
-
-```{r include=FALSE}
-library(WDI)
-library(ggplot2)
-library(plotly)
-
-TB <- WDI(indicator = "NE.RSB.GNFS.CD", country = c("NOR"), start = 1970, end = 2020)
-TB
-
-graphTB <- ggplot(TB) +
- aes(x = year, y = NE.RSB.GNFS.CD, fill = country) +
- geom_area(size = 1L) +
- scale_fill_brewer(palette = "PuOr") +
- labs(y = "dollars", title = "Norway's trade balance (in $)") +
- theme_minimal() +
- theme(legend.position = "none")
-
-DynagraphTB <- ggplotly(graphTB)
-
-```
-
-```{r}
-
-DynagraphTB
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##GRAPH7
-
-```{r include=FALSE}
-IndexEcoFree <- data.frame(
-  stringsAsFactors = FALSE,
-  Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
-  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60))
-
-IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
-
-IndexEcoFree1 <- ggplot(IndexEcoFree, 
-            aes(x = Category, y = Score, color = Score, label = Score)) +
-  geom_col(aes(fill = Score)) +
-  ggtitle("Index of Economic Freedom, 2019") + 
-  xlab("Category") + ylab("Score") + 
-  coord_flip() +
-  labs(caption = "Source: www.heritage.org") +
-  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
-  scale_color_distiller(palette = "Oranges", trans = "reverse") +
-  theme(legend.position = "none") + 
-  theme(panel.background = element_rect(fill = "gray98")) +
-  theme(plot.title = element_text(hjust = 0.5))
-  
-DynagraphEF <- ggplotly(IndexEcoFree1)
-
-```
-
-```{r}
-
-DynagraphEF
-  
-```
-
-
-
-##GRAPH8
-
-```{r include=FALSE}
-
-IndexEcoFreeRanking <- data.frame(
-  stringsAsFactors = FALSE,
-  Category=c("Singapore", "Hong Kong", "New Zealandy", "Australia", "Switzerland", "Ireland", "United Kingdom", "Denmark", "Canada", "Estonia", "Taiwan", "Georgia", "Iceland", "Netherlands", "Chile", "Lithuania", "United States", "United Arab Emirates", "Luxembourg", "Finland ", "Mauritius", "Sweden", "Czech Republic", "Malaysia", "South Korea", "Israel", "Germany", "Norway", "Austria", "Japan"),
-  Score=c(89.4	, 89.1, 84.1, 82.6	, 82.0	, 80.9, 79.3	, 78.3, 78.2, 77.7, 77.1, 77.1, 77.1, 77.0, 76.8, 76.7, 76.6, 76.2	, 75.8, 75.7, 74.9, 74.9, 74.8, 74.7	, 74.0, 74.0, 73.5, 73.4, 73.3, 73.3)) 
-
-IndexEcoFreeRanking$Category <- with(IndexEcoFreeRanking, reorder(Category, +Score))
-
-IndexEcoFreeRanking1 <- ggplot(IndexEcoFreeRanking, 
-            aes(x = Category, y = Score, color = Score, label = Score)) +
-  geom_col(aes(fill = Score)) +
-  ggtitle("Ranking average scores") + 
-  xlab("Country") + ylab("Score") + 
-  coord_flip() +
-  labs(caption = "Source: www.heritage.org") +
-  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
-  scale_color_distiller(palette = "Oranges", trans = "reverse") +
-  theme(legend.position = "none") + 
-  theme(plot.title = element_text(hjust = 0.5)) +
-  theme(axis.text = element_text(size = 7), 
-  panel.background = element_rect(fill = "gray98")) +labs(caption = NULL)
-  
-DynagraphRK <- ggplotly(IndexEcoFreeRanking1)
-
-```
-
-```{r}
-
-DynagraphRK
-  
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
