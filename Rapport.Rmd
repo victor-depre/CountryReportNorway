@@ -436,6 +436,13 @@ graph2
 
 ---------------
 
+The politics of Norway take place in the framework of a parliamentary, representative democratic constitutional monarchy. Executive power is exercised by the Council of State, the cabinet, led by the Prime Minister of Norway. Legislative power is vested in both the government and the legislature, the Storting, elected within a multi-party system. The judiciary is independent of the executive branch and the legislature.
+
+The Economist Intelligence Unit rated Norway a "full democracy" in 2019. Reporters Without Borders ranked Norway first in the world in the 2019 Press Freedom Index. On March 19, 2020, the Norwegian parliament voted to give the enormous emergency powers to the government. While this is in effect, the government can change any law except for the constitution and human rights legislation. These emergency powers are due to expire in December 2020. During this period Norway is operating with a partially combined executive and legislative branch.
+
+The graph shows that Norway is the best country having regard to political rights. Germany and France are just behind and countries like afghanistan or especially South Korea are still far behind.
+
+
 ```{r include=FALSE}
 library(spiR)
 
@@ -474,14 +481,13 @@ graph81
 
 --------------------
 
-Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+In March 2019, the Norwegian government announced that the world's largest sovereign wealth fund, Norway's, itself funded by petrodollars, will disengage from oil companies in order to reduce the Scandinavian country's economic exposure to oil. If this proposal is dictated by financial rather than environmental considerations, the withdrawal of this major investor is a signal against pollution.
 
-Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
-Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+A few months ago, the Norwegian parliament passed a law aimed at achieving a carbon neutral balance by 2030, twenty years earlier than originally planned. It also launched an accelerated programme of greenhouse gas emission reductions, particularly in the oil and gas sector. These emissions could well be totally eliminated in the near future.
 
 ---------------
 
-**Summary**  
+**Summary**
 
 * **Greenhouse gas emission.**
 
@@ -493,11 +499,13 @@ Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is 
 
 ---------------
 
+Energy-related CO2 emissions in Norway are very low in comparisson to other countries. Because the energies used in the country are essentially renewable energies like hydropower. And we can see on the graph below that the majority of the countries are reducing their greenhouse gas emissions which is a great thing for the future.
+
 ```{r, include=FALSE}
 
 library(spiR)
 
-EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+EQU <- sqs_spi_data(country = c("DNK", "NOR", "NLD", "USA", "FRA"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "EQU_2")
 EQU
@@ -532,11 +540,13 @@ graph7
 
 ---------------
 
+Norwegian electricity is almost exclusively produced by its hydropower dams. The country is the 6th largest producer of hydropower in the world in 2018 and the largest in Europe, with 3.3% of the world's hydropower production and 26% of that of the European Union. This is well illustrated with the graph below because Norway is clearly one of the best countries having regard to the electricity quality with other countries like Denemark or Netherlands.
+
 ```{r, include=FALSE}
 
 library(spiR)
 
-SHE_2 <- sqs_spi_data(country = c("AUS", "NOR", "USA", "NLD", "DEU"), 
+SHE_2 <- sqs_spi_data(country = c("AUS", "NOR", "USA", "NLD", "DEU", "CAN", "DNK", "FIN"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "SHE_2")
 
@@ -573,10 +583,7 @@ graph31
 --------------------
 
 
-Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
 
-Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
-Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
 
 ---------------
 
@@ -586,11 +593,9 @@ Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is 
 
 * **Norway's density forecast.**
 
-* **Gdp per fylker map.**
+* **Migration Map**
 
-* **Norway's ranking considering the Index of economical freedom**
-
-* **Detail of the Index of economical freedom**
+* **Norway's population forecast**
 
 ---------------
 
@@ -759,9 +764,6 @@ q2 <- p2 +
 q2
 
 ```
-
-
-
 
 
 
