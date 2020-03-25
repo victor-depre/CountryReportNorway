@@ -59,17 +59,16 @@ Norway's economy, although sensitive to economic cycles, has shown robust growth
 Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
 Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
 
-**Summary**
 
 * **Norway's main business sectors.**
 
 * **Norway's trade balance.**
 
-* **Gdp per fylker map**
+* **Gdp per fylker map.**
 
-* **Norway's ranking considering the Index of economical freedom**
+* **Norway's ranking considering the Index of economical freedom.**
 
-* **Detail of the Index of economical freedom**
+* **Detail of the Index of economical freedom.**
 
 
 ## Norway's main business sectors
@@ -262,6 +261,22 @@ DynagraphRK
 
 --------------------
 
+
+Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+
+Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
+Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+
+
+* **Wellbeing.**
+
+* **Unemployment map.**
+
+* **Health and wellness.**
+
+* **Political rights**
+
+
 ## Wellbeing
 
 ```{r, include=FALSE}
@@ -367,12 +382,55 @@ graph2
 graph2
 ``` 
 
+## Political rights 
+
+```{r include=FALSE}
+library(spiR)
+
+PRI_1 <- sqs_spi_data(country = c("NOR","DEU","FRA","AFG","PRK"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "PRI_1")
+
+
+```
+
+```{r include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph71 <- ggplot(PRI_1) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Political rights indicator", title = "Political rights (0 = no rights / 40 = full rights)", color = "Countries") +
+ theme_minimal()
+
+graph81 <- ggplotly(graph71)
+
+```
+
+```{r echo=FALSE}
+
+graph81
+
+```
 
 ---------------
 
 # Environmental Analysis
 
 --------------------
+
+Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+
+Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
+Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+
+
+* **Electricity Quality.**
+
+* **Greenhouse gas emission.**
 
 
 ## Electricty Quality 
@@ -411,7 +469,7 @@ graph31
 graph31
 ```
 
-## Air pollution
+## Greenhouse gas emissions
 
 ```{r, include=FALSE}
 
@@ -420,7 +478,7 @@ library(spiR)
 EQU <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "EQU_2")
-
+EQU
 ```
 
 ```{r, include=FALSE}
@@ -435,7 +493,7 @@ graph6 <- ggplot(EQU, aes(var_year, value, color = countryName)) +
   scale_x_log10() + theme(plot.subtitle = element_text(vjust = 1), 
     plot.caption = element_text(vjust = 1), 
     axis.text.y = element_text(size = 5)) +
-    theme(axis.text.y = element_text(size = 7)) + labs(title = "Air pollution attributable deaths") +labs(x = "Year", y = "Deaths per year") + labs(colour = NULL, size = NULL)
+    theme(axis.text.y = element_text(size = 7)) + labs(title = "Greenhouse gas emissions") +labs(x = "Year", y = "Emissions") + labs(colour = NULL, size = NULL)
 
 graph7 <- ggplotly(graph6)
 graph7
@@ -451,6 +509,24 @@ graph7
 # Demographic Analysis
 
 --------------------
+
+
+Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+
+Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
+Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+
+
+* **Density Map.**
+
+* **Norway's density forecast.**
+
+* **Gdp per fylker map.**
+
+* **Norway's ranking considering the Index of economical freedom**
+
+* **Detail of the Index of economical freedom**
+
 
 ## Density Map
 
@@ -513,6 +589,8 @@ This map highlights the great disparity that exists on the Norwegian territory i
 
 library(readxl)
 library(forecast)
+library(autoplotly)
+library(plotly)
 
 DensityPerYear <- read_xlsx("DensityPerYear.xlsx")
 
@@ -522,15 +600,17 @@ autoarima1 <- auto.arima(tsDensityPerYear)
 
 forecast1 <- forecast(autoarima1, h=32)
 
+#p <- autoplot(forecast1)
+p <- autoplotly(forecast1)
+q <- p +
+  ggplot2::ggtitle("Norway's density expectations") +
+  ggplot2::labs(y = "Density", x = "Year")
+
 ```
 
 ```{r echo=FALSE}
-library(autoplotly)
-library(plotly)
 
-forecast1
-
-autoplotly(forecast1)
+q
 
 ```
 
@@ -575,6 +655,58 @@ MigrationMap
 
 ```
 
+## Norway's population forecast
+
+```{r include=FALSE, echo = FALSE}
+
+library(readxl)
+library(forecast)
+library(autoplotly)
+library(plotly)
+
+PopulationPerYear <- read_xlsx("PopulationPerYear.xlsx")
+
+tsPopulationPerYear <- ts(PopulationPerYear$Population, frequency = 0.2, start = c(1955))
+
+autoarima1 <- auto.arima(tsPopulationPerYear)
+
+forecast1 <- forecast(autoarima1, h=6)
+
+#p2 <- autoplot(forecast1)
+p2 <- autoplotly(forecast1)
+q2 <- p2 +
+  ggplot2::ggtitle("Norway's population expectations") +
+  ggplot2::labs(y = "Population", x = "Year")
+
+```
+
+```{r echo=FALSE}
+
+q2
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -587,29 +719,6 @@ MigrationMap
 library(spiR)
 sqs_spi_indicator()
 ```
-
-
-
-```{r}
-library(spiR)
-
-SPI <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "SPI")
-
-SPI
-```
-
-
-
-
-
-
-
-
-
-
-
 
 
 ```{r include=FALSE}
