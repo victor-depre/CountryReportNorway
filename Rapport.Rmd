@@ -1,5 +1,5 @@
 ---
-title: '**Country Report Norway**'
+title: '**<span style="color: #fb4141">Country Report Norway</span>**'
 author: "Victor Dépré / Skema Business School"
 date: "03/20/2020"
 output:
@@ -9,10 +9,12 @@ output:
     toc: 2
 ---
 <style>
-.html-widget {
-margin: auto;
-}
+.html-widget {margin: auto;}
 </style>
+<style>
+body {text-align: justify}
+</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -50,7 +52,7 @@ Norway is a very interesting country that is quite exemplary and could inspire m
 
 ---------------
 
-# Economic Analysis
+# **Economic Analysis**
 
 --------------------
 
@@ -59,6 +61,9 @@ Norway's economy, although sensitive to economic cycles, has shown robust growth
 Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
 Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
 
+---------------
+
+**Summary**
 
 * **Norway's main business sectors.**
 
@@ -70,8 +75,15 @@ Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is 
 
 * **Detail of the Index of economical freedom.**
 
+---------------
 
 ## Norway's main business sectors
+
+---------------
+
+Exploitation of Norway’s vast oil and gas reserves has been far and away the biggest contributor to the Norwegian economy since they were first discovered in the 1960s. The country generates almost 98% of its electricity from hydropower so most of the oil and gas is exported overseas and that's why it represents around 20% of Norway's economy. 
+
+One of the challenges for the Norwegian government will be how to manage the economic transition after the depletion of oil and gas resources. There are still huge reserves in the Barents Sea, but they are located in the Arctic Circle, which means that access to them is considered more difficult and more dangerous for the environment.
 
 ```{r include=FALSE}
 library(ggplot2)
@@ -87,8 +99,8 @@ PNBperCategory$Category <- with(PNBperCategory, reorder(Category, +Score))
 PNBperCategory1 <- ggplot(PNBperCategory, 
             aes(x = Category, y = Score, color = Score, label = Score)) +
   geom_col(aes(fill = Score)) +
-  ggtitle("% of PNB per category") + 
-  xlab("Country") + ylab("% of PNB") + 
+  ggtitle("% of GNP per category") + 
+  xlab("Country") + ylab("% of GNP") + 
   coord_flip() +
   labs(caption = "Source: www.heritage.org") +
   scale_fill_distiller(palette = "Set2", trans = "reverse") +
@@ -108,7 +120,14 @@ DynagraphPNBPC
   
 ```
 
+---------------
+
 ## Norways Trade Balance
+
+---------------
+
+
+The balance of trade in goods and services is the difference between exports of goods and services and imports of goods and services, expressed in dollars. A positive balance indicates that exports exceed imports in value (trade surplus). A negative balance, on the contrary, indicates that imports exceed exports in value (trade deficit). The statistics relate this balance to the size of economic activity (GDP). We can see on the graph below that the trade balance reached its maximum in 2008 before the crisis. The crisis has had an important impact on the country's exportations since 2008 : exports have almost only fallen except in 2011 and 2012.
 
 ```{r include=FALSE}
 library(WDI)
@@ -130,8 +149,6 @@ DynagraphTB <- ggplotly(graphTB)
 
 ```
 
-The balance of trade in goods and services is the difference between exports of goods and services and imports of goods and services, expressed in dollars. A positive balance indicates that exports exceed imports in value (trade surplus). A negative balance, on the contrary, indicates that imports exceed exports in value (trade deficit). The statistics relate this balance to the size of economic activity (GDP).
-
 
 ```{r echo=FALSE}
 
@@ -139,7 +156,14 @@ DynagraphTB
 
 ```
 
+---------------
+
 ## GDP Map
+
+---------------
+
+
+This is a map showing the GDP per region in Norway, it is immediately noticeable that the economy is concentrated in southern Norway. Moreover, the 4 regions with the highest GDP, Oslo, Akershus, Hordaland and Rogaland alone account for half of the country's GDP, which is around 300 billion euros.
 
 ```{r warning=TRUE, include=FALSE}
 
@@ -178,44 +202,15 @@ GdpMap
 
 ```
 
+---------------
 
-## Index of Economical Freedom
+## Norway's ranking considering the Index of Economic Freedom 
 
-```{r include=FALSE}
+---------------
 
-library(plotly)
+Economic freedom is the fundamental right of every human to control his or her own labor and property. In an economically free society, individuals are free to work, produce, consume, and invest in any way they please. In economically free societies, governments allow labor, capital, and goods to move freely, and refrain from coercion or constraint of liberty beyond the extent necessary to protect and maintain liberty itself.
 
-IndexEcoFree <- data.frame(
-  stringsAsFactors = FALSE,
-  Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
-  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60))
-
-IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
-
-IndexEcoFree1 <- ggplot(IndexEcoFree, 
-            aes(x = Category, y = Score, color = Score, label = Score)) +
-  geom_col(aes(fill = Score)) +
-  ggtitle("Index of Economic Freedom, 2019") + 
-  xlab("Category") + ylab("Score") + 
-  coord_flip() +
-  labs(caption = "Source: www.heritage.org") +
-  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
-  scale_color_distiller(palette = "Oranges", trans = "reverse") +
-  theme(legend.position = "none") + 
-  theme(panel.background = element_rect(fill = "gray98")) +
-  theme(plot.title = element_text(hjust = 0.5))
-  
-DynagraphEF <- ggplotly(IndexEcoFree1)
-
-```
-
-```{r echo=FALSE}
-
-DynagraphEF
-  
-```
-
-## Norways Ranking
+Norway’s economic freedom score is 73.4, making its economy the 28th freest in the 2020 Index. Its overall score has increased by 0.4 point due to a higher labor freedom score. Norway is ranked 15th among 45 countries in the Europe region, and its overall score is well above the regional and world averages.
 
 ```{r include=FALSE}
 
@@ -250,23 +245,61 @@ DynagraphRK
   
 ```
 
+---------------
 
-
-
-
+## Detail of the Index of Economic Freedom
 
 ---------------
 
-# Social Analysis
+It can be seen from the graph below that overall Norway has very high scores, especially with regard to the integrity of the government. Nevertheless the greatest impediment to greater economic freedom in Norway is too much government spending. Reducing it will be difficult, however, because a large part of the economy and an even larger percentage of the government’s budget are structured around revenue from Equinor, the state-owned oil, gas, and wind-energy company.
+
+```{r include=FALSE}
+
+library(plotly)
+
+IndexEcoFree <- data.frame(
+  stringsAsFactors = FALSE,
+  Category=c("Property Rights", "Judical Effectiveness", "Government Integrity", "Tax Burden", "Government Spending", "Fiscal Health", "Business Freedom", "Labor Freedom", "Monetary Freedom", "Trade Freedom", "Investment Freedom", "Financial Freedom"),
+  Score=c(84.3,	82.8,	95.6,	57.7,	25.6,	86.1,	57.4,	86.7,	74.8,	83.8,	75,	60))
+
+IndexEcoFree$Category <- with(IndexEcoFree, reorder(Category, +Score))
+
+IndexEcoFree1 <- ggplot(IndexEcoFree, 
+            aes(x = Category, y = Score, color = Score, label = Score)) +
+  geom_col(aes(fill = Score)) +
+  ggtitle("Index of Economic Freedom, 2020") + 
+  xlab("Category") + ylab("Score") + 
+  coord_flip() +
+  labs(caption = "Source: www.heritage.org") +
+  scale_fill_distiller(palette = "Oranges", trans = "reverse") +
+  scale_color_distiller(palette = "Oranges", trans = "reverse") +
+  theme(legend.position = "none") + 
+  theme(panel.background = element_rect(fill = "gray98")) +
+  theme(plot.title = element_text(hjust = 0.5))
+  
+DynagraphEF <- ggplotly(IndexEcoFree1)
+
+```
+
+```{r echo=FALSE}
+
+DynagraphEF
+  
+```
+
+---------------
+
+# **Social Analysis**
 
 --------------------
 
+Norwegian values are rooted in egalitarian ideals. Most Norwegians believe in equal distribution of wealth and that everyone should have equal opportunities. Norwegians generally have a high degree of trust in the government and believe in the welfare state. Norway is called a welfare state because the government, both federal and local, has primary responsibility for the welfare of its citizens. The Norwegian welfare state is mainly financed by taxes and duties paid by its inhabitants. Norway is ranked as one of the best countries to live in and has one of the lowest crime rates in the world.
 
-Norway's economy, although sensitive to economic cycles, has shown robust growth since the beginning of the industrial revolution. Freight transport is a strong constant in Norway's exports, but economic growth is largely due to the abundance of natural resources, including oil, hydroelectricity and fisheries. Indeed, the exploitation of its oil resources accounts for half of the total value of its exports. Agriculture and heavy industry are declining relative to the service and oil sectors. Its public sector is one of the largest in the world in relation to its gross domestic product.
+Norway is definitely a part of Europe, but is not a member of the EU. However, the country is fully integrated in the European community in everything from trade and economy, through the European Economic Area (EEA) agreement, to education and research – for instance through the Erasmus programme. Norway also participates in the Schengen agreement, making travelling to and from other Schengen countries easy.
 
-Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
-Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
+---------------
 
+**Summary**
 
 * **Wellbeing.**
 
@@ -276,13 +309,18 @@ Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is 
 
 * **Political rights**
 
+---------------
 
-## Wellbeing
+## Well-being
+
+---------------
+
+Relative to other high-income countries, Norway performs extremely well across various indicators of resident's well-being. Life expectancy at birth has increased by two years since 2005, and average life expectancy is now two years higher than the average for OECD countries. This position is in contrast to the United States, which has a life expectancy not as good as Norway and that's the reason why Norway is above the United States or countries like Finland or Germany. On this graph we can also see that well-being in China is rather low compared to other countries, but this is still correct compared to countries like South Sudan (country where well-being indicators are the lowest in the world).
 
 ```{r, include=FALSE}
 library(spiR)
 
-FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+FOW <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU", "FIN", "SSD","FRA","CHN","USA"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "FOW")
 ```
@@ -296,8 +334,9 @@ graph <- ggplot(FOW) +
  aes(x = var_year, y = value, colour = countryName, group = countryName) +
  geom_line(size = 1.2) +
  scale_color_hue() +
- labs(x = "Year", y = "Wellbeing Indicator", title = "Wellbeing", color = "Countries") +
- theme_minimal() 
+ labs(x = "Year", y = "Well-being Indicator", title = "Well-being", color = "Countries") +
+ theme_minimal() +
+ theme(axis.text.y = element_text(size = 5))
 
 graph1 <- ggplotly(graph)
 graph1
@@ -308,8 +347,13 @@ graph1
 graph1
 ```
 
+---------------
+
 ## Unemployment Map
 
+---------------
+
+This map shows the unemployment rate in each Norwegian region. It shows that the share of the unemployed in the Norwegian labour force is very low (average 3.7%), especially since the regions with the highest rate are the least dense (see Density map). Moreover, according to International Monetary Fund estimates, the unemployment rate in Norway is expected to stabilise at 3.7% from 2020 onwards.
 
 ```{r include=FALSE}
 
@@ -348,14 +392,21 @@ UnemploymentMap
 
 ```
 
+---------------
 
 ## Health and Wellness
+
+---------------
+
+In Norway, all hospitals are funded by the public as part of the national budget. However, while medical treatment is free of charge for any person younger than the age of sixteen, residents who have reached adulthood must pay a deductible each year before becoming eligible for an exemption card. The card entitles one to free healthcare for the remainder of that year.
+
+All public hospitals in Norway are run by four Regional Health Authorities overseen by the Ministry of Health and Care Services. In addition to these public hospitals, there are a small number of privately owned health clinics currently operating.
 
 ```{r, include=FALSE}
 
 library(spiR)
 
-HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU"), 
+HWE <- sqs_spi_data(country = c("AUS", "DNK", "NOR", "NLD", "DEU", "ZWE", "SWE", "ESP", "FRA"), 
                        year = c("2014","2015","2016", "2017", "2018", "2019"), 
                        indicators = "HWE")
 
@@ -371,7 +422,8 @@ graph2 <- ggplot(HWE) +
  geom_line(size = 1.2) +
  scale_color_hue() + 
  labs(x = "Year", y = "Health & Wellness Indicator", title = "Health & Wellness", color = "Countries") +
- theme_minimal()
+ theme_minimal() +
+ theme(axis.text.y = element_text(size = 5))
 
 graph2 <- ggplotly(graph2)
 graph2
@@ -382,7 +434,11 @@ graph2
 graph2
 ``` 
 
+---------------
+
 ## Political rights 
+
+---------------
 
 ```{r include=FALSE}
 library(spiR)
@@ -418,7 +474,7 @@ graph81
 
 ---------------
 
-# Environmental Analysis
+# **Environmental Analysis**
 
 --------------------
 
@@ -427,49 +483,19 @@ Norway's economy, although sensitive to economic cycles, has shown robust growth
 Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
 Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
 
+---------------
 
-* **Electricity Quality.**
+**Summary**  
 
 * **Greenhouse gas emission.**
 
+* **Electricity quality**
 
-## Electricty Quality 
-
-```{r, include=FALSE}
-
-library(spiR)
-
-SHE_2 <- sqs_spi_data(country = c("AUS", "USA", "NOR", "NLD", "DEU"), 
-                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
-                       indicators = "SHE_2")
-
-
-SHE_2
-
-```
-
-```{r include=FALSE}
-
-library(ggplot2)
-library(plotly)
-
-graph3 <- ggplot(SHE_2) +
- aes(x = var_year, y = value, colour = countryName, group = countryName) +
- geom_line(size = 1.2) +
- scale_color_hue() +
- labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
- theme_minimal() 
-
-graph31 <- ggplotly(graph3)
-graph31
-
-```
-
-```{r echo=FALSE}
-graph31
-```
+---------------
 
 ## Greenhouse gas emissions
+
+---------------
 
 ```{r, include=FALSE}
 
@@ -506,7 +532,47 @@ graph7
 
 ---------------
 
-# Demographic Analysis
+## Electricty Quality 
+
+---------------
+
+```{r, include=FALSE}
+
+library(spiR)
+
+SHE_2 <- sqs_spi_data(country = c("AUS", "NOR", "USA", "NLD", "DEU"), 
+                       year = c("2014","2015","2016", "2017", "2018", "2019"), 
+                       indicators = "SHE_2")
+
+
+SHE_2
+
+```
+
+```{r include=FALSE}
+
+library(ggplot2)
+library(plotly)
+
+graph3 <- ggplot(SHE_2) +
+ aes(x = var_year, y = value, colour = countryName, group = countryName) +
+ geom_line(size = 1.2) +
+ scale_color_hue() +
+ labs(x = "Year", y = "Electricity Quality Indicator", title = "Electricity Quality", color = "Countries") +
+ theme_minimal() 
+
+graph31 <- ggplotly(graph3)
+graph31
+
+```
+
+```{r echo=FALSE}
+graph31
+```
+
+---------------
+
+# **Demographic Analysis**
 
 --------------------
 
@@ -516,6 +582,9 @@ Norway's economy, although sensitive to economic cycles, has shown robust growth
 Norway is characterised by a very high standard of material living and is performing well on aspects like well-being, thanks to the conjunction of abundant natural resources, well-designed public policies and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to actively to remove barriers to women's careers. Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks and, and social values based on inclusion and egalitarianism, illustrated in particular by the fact that the authorities are working hard to remove barriers to women's careers.
 Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is exposed to external risks. Therefore, stresses the importance of flexibility and the competitiveness of the continental economy. The growth of property prices remain strong in Norway, which raises concerns about its macroeconomic stability.
 
+---------------
+
+**Summary**
 
 * **Density Map.**
 
@@ -527,8 +596,13 @@ Nevertheless, the significant drop in oil prices in 2014 recalls that Norway is 
 
 * **Detail of the Index of economical freedom**
 
+---------------
 
 ## Density Map
+
+---------------
+
+This map highlights the great disparity that exists on the Norwegian territory in terms of Density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a Density of less than 20 inhabitants per km². By way of comparison, the average Density in France is about 117 inhabitants per km² compared to 13 in Norway. 
 
 ```{r warning=FALSE, include=FALSE}
 library(sf)
@@ -579,11 +653,11 @@ DensityMap
 
 ```
 
-
-This map highlights the great disparity that exists on the Norwegian territory in terms of Density. Indeed, one notices immediately that the vast majority of the country is very sparsely populated. Most regions have a Density of less than 20 inhabitants per km². By way of comparison, the average Density in France is about 117 inhabitants per km² compared to 13 in Norway. 
-
+---------------
 
 ## Norways Density Forecast
+
+---------------
 
 ```{r include=FALSE}
 
@@ -614,9 +688,11 @@ q
 
 ```
 
+---------------
 
 ## Migration Map
 
+---------------
 
 ```{r include=FALSE}
 
@@ -655,7 +731,11 @@ MigrationMap
 
 ```
 
+---------------
+
 ## Norway's population forecast
+
+---------------
 
 ```{r include=FALSE, echo = FALSE}
 
@@ -710,11 +790,7 @@ q2
 
 
 
----------------
 
-
-
---------------
 ```{r}
 library(spiR)
 sqs_spi_indicator()
